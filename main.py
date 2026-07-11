@@ -2,121 +2,214 @@ import streamlit as st
 import random
 from datetime import datetime
 
-st.set_page_config(page_title="Campfire Relax", page_icon="🔥", layout="wide")
+# 페이지 설정
+st.set_page_config(
+    page_title="Campfire Relax",
+    page_icon="🔥",
+    layout="wide"
+)
 
+# 캠핑 테마
 themes = {
-    "🌲 숲속": {
-        "bg": "#0b3d0b",
-        "text": "숲속의 조용한 밤"
+    "🌲 숲속 캠핑": {
+        "bg": "#C8E6C9",
+        "name": "조용한 숲속의 밤"
     },
-    "🏞️ 호숫가": {
-        "bg": "#0b4f6c",
-        "text": "잔잔한 호숫가"
+    "🏞️ 호숫가 캠핑": {
+        "bg": "#B3E5FC",
+        "name": "잔잔한 호숫가"
     },
-    "❄️ 겨울": {
-        "bg": "#3b4c6b",
-        "text": "눈 내리는 겨울 캠핑"
+    "❄️ 겨울 캠핑": {
+        "bg": "#ECEFF1",
+        "name": "눈 내리는 겨울 밤"
     },
-    "🏖️ 해변": {
-        "bg": "#e89b3d",
-        "text": "노을이 지는 해변"
+    "🏖️ 해변 캠핑": {
+        "bg": "#FFE0B2",
+        "name": "노을이 지는 해변"
     }
 }
 
-theme = st.sidebar.selectbox("배경 선택", list(themes.keys()))
+# 테마 선택
+theme = st.sidebar.selectbox(
+    "🏕️ 캠핑 장소 선택",
+    list(themes.keys())
+)
 
-bg = themes[theme]["bg"]
+background = themes[theme]["bg"]
 
+# CSS
 st.markdown(f"""
 <style>
 
 .stApp {{
-background:{bg};
-color:white;
+    background:{background};
 }}
 
-h1,h2,h3,p,div {{
-color:white;
-text-align:center;
+h1 {{
+    color:#111111;
+    font-size:55px;
+    font-weight:900;
+    text-align:center;
+}}
+
+h2,h3,p,div {{
+    color:#111111;
+    text-align:center;
+    font-weight:600;
+}}
+
+.subtitle {{
+    font-size:25px;
+    color:#333333;
 }}
 
 .fire {{
-font-size:220px;
-animation:flicker 1s infinite alternate;
+    font-size:240px;
+    text-align:center;
+    animation:flicker 1s infinite alternate;
 }}
 
 @keyframes flicker {{
-0%{{transform:scale(1);}}
-50%{{transform:scale(1.08);}}
-100%{{transform:scale(.95);}}
+    0% {{
+        transform:scale(1);
+    }}
+
+    50% {{
+        transform:scale(1.08);
+    }}
+
+    100% {{
+        transform:scale(0.95);
+    }}
 }}
 
-.star {{
-font-size:24px;
-animation:blink 2s infinite;
+.stars {{
+    font-size:30px;
+    animation:blink 2s infinite;
 }}
 
 @keyframes blink {{
-50%{{opacity:0.2;}}
+    50% {{
+        opacity:0.3;
+    }}
 }}
 
-button {{
-width:100%;
+.quote {{
+    background:rgba(255,255,255,0.6);
+    padding:20px;
+    border-radius:15px;
+    font-size:25px;
+    color:#111111;
+}}
+
+.footer {{
+    font-size:15px;
+    color:#555555;
 }}
 
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🏕️ Campfire Relax")
 
-st.write(themes[theme]["text"])
-
-st.markdown(
-"<div class='star'>✨ ⭐ ✨ ⭐ ✨ ⭐ ✨ ⭐ ✨</div>",
-unsafe_allow_html=True
-)
+# 제목
+st.markdown("🔥 Campfire Relax")
 
 st.markdown(
-"<div class='fire'>🔥</div>",
-unsafe_allow_html=True
+    f"""
+    <div class="subtitle">
+    {themes[theme]["name"]}<br>
+    잠시 쉬어가는 시간을 가져보세요.
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
-quotes = [
-"오늘도 정말 수고했어요.",
-"잠시 쉬어가도 괜찮습니다.",
-"불꽃처럼 천천히 마음을 녹여보세요.",
-"당신은 충분히 잘하고 있습니다.",
-"오늘 하루도 의미 있는 하루였습니다."
+
+# 별
+st.markdown(
+    """
+    <div class="stars">
+    ✨ ⭐ ✨ ⭐ ✨ ⭐ ✨ ⭐ ✨
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# 불멍
+st.markdown(
+    """
+    <div class="fire">
+    🔥
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# 문구
+messages = [
+    "오늘 하루도 정말 수고했습니다.",
+    "잠시 아무 생각 없이 쉬어도 괜찮아요.",
+    "천천히 타오르는 불꽃처럼 편안하게 쉬어가세요.",
+    "작은 휴식이 큰 힘이 됩니다.",
+    "지금 이 순간만큼은 걱정을 내려놓아 보세요."
 ]
 
-st.subheader("💬 오늘의 위로")
 
-st.success(random.choice(quotes))
+st.markdown(
+    f"""
+    <div class="quote">
+    💬 {random.choice(messages)}
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-col1,col2,col3=st.columns(3)
+
+st.write("")
+
+
+# 버튼
+col1, col2, col3 = st.columns(3)
+
 
 with col1:
     if st.button("☕ 커피 한잔"):
-        st.info("따뜻한 커피 한잔이 마음을 편안하게 합니다.")
+        st.info("따뜻한 커피처럼 마음도 천천히 편안해집니다.")
+
 
 with col2:
     if st.button("🌿 심호흡"):
-        st.success("천천히 숨을 들이마시고 내쉬어 보세요.")
+        st.success("천천히 숨을 들이마시고, 천천히 내쉬어 보세요.")
+
 
 with col3:
     if st.button("❤️ 응원받기"):
         st.balloons()
-        st.success("당신은 충분히 잘하고 있습니다!")
+        st.success("오늘도 충분히 잘하고 있습니다.")
 
-st.markdown("---")
 
-st.subheader("🕒 현재 시간")
+# 시간
+st.divider()
+
+st.markdown("### 🕒 현재 시간")
 
 st.metric(
-"Now",
-datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    "현재",
+    datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 )
 
-st.markdown("---")
 
-st.caption("🔥 Made with Streamlit")
+# 마무리
+st.divider()
+
+st.markdown(
+    """
+    <div class="footer">
+    🔥 Campfire Relax<br>
+    마음이 쉬어가는 작은 공간
+    </div>
+    """,
+    unsafe_allow_html=True
+)
