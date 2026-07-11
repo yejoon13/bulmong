@@ -1,209 +1,122 @@
 import streamlit as st
 import random
-import time
-from pathlib import Path
+from datetime import datetime
 
-st.set_page_config(
-    page_title="🔥 Campfire Relax",
-    page_icon="🏕️",
-    layout="wide"
-)
+st.set_page_config(page_title="Campfire Relax", page_icon="🔥", layout="wide")
 
-####################################
-# 배경 CSS
-####################################
+themes = {
+    "🌲 숲속": {
+        "bg": "#0b3d0b",
+        "text": "숲속의 조용한 밤"
+    },
+    "🏞️ 호숫가": {
+        "bg": "#0b4f6c",
+        "text": "잔잔한 호숫가"
+    },
+    "❄️ 겨울": {
+        "bg": "#3b4c6b",
+        "text": "눈 내리는 겨울 캠핑"
+    },
+    "🏖️ 해변": {
+        "bg": "#e89b3d",
+        "text": "노을이 지는 해변"
+    }
+}
 
-st.markdown("""
+theme = st.sidebar.selectbox("배경 선택", list(themes.keys()))
+
+bg = themes[theme]["bg"]
+
+st.markdown(f"""
 <style>
 
-.stApp{
-background:linear-gradient(#06111f,#101820,#000000);
-}
-
-.main-title{
-text-align:center;
-font-size:55px;
-color:#FFD369;
-}
-
-.sub{
-text-align:center;
-font-size:22px;
+.stApp {{
+background:{bg};
 color:white;
-}
+}}
 
-.fire{
-font-size:150px;
+h1,h2,h3,p,div {{
+color:white;
 text-align:center;
+}}
+
+.fire {{
+font-size:220px;
 animation:flicker 1s infinite alternate;
-}
+}}
 
-@keyframes flicker{
-0%{transform:scale(1);}
-25%{transform:scale(1.03);}
-50%{transform:scale(.96);}
-75%{transform:scale(1.05);}
-100%{transform:scale(1);}
-}
+@keyframes flicker {{
+0%{{transform:scale(1);}}
+50%{{transform:scale(1.08);}}
+100%{{transform:scale(.95);}}
+}}
 
-.quote{
+.star {{
+font-size:24px;
+animation:blink 2s infinite;
+}}
 
-font-size:28px;
-text-align:center;
-color:white;
-padding:30px;
+@keyframes blink {{
+50%{{opacity:0.2;}}
+}}
 
-}
-
-.small{
-
-text-align:center;
-color:gray;
-
-}
+button {{
+width:100%;
+}}
 
 </style>
+""", unsafe_allow_html=True)
 
-""",unsafe_allow_html=True)
+st.title("🏕️ Campfire Relax")
 
-####################################
-# 제목
-####################################
-
-st.markdown("<div class='main-title'>🏕️ Campfire Relax</div>",unsafe_allow_html=True)
-
-st.markdown("<div class='sub'>오늘 하루도 정말 수고하셨습니다.</div>",unsafe_allow_html=True)
-
-####################################
-# 테마 선택
-####################################
-
-theme=st.sidebar.selectbox(
-"캠핑 장소 선택",
-
-[
-"🌲 숲속",
-"🏞️ 호숫가",
-"❄️ 겨울 캠핑"
-]
-
-)
-
-image={
-"🌲 숲속":"images/forest.jpg",
-"🏞️ 호숫가":"images/lake.jpg",
-"❄️ 겨울 캠핑":"images/winter.jpg"
-}
-
-if Path(image[theme]).exists():
-    st.image(image[theme],use_container_width=True)
-
-####################################
-# 불멍
-####################################
-
-st.markdown("<div class='fire'>🔥</div>",unsafe_allow_html=True)
-
-####################################
-# 자연소리
-####################################
-
-sound=st.sidebar.selectbox(
-
-"자연 소리",
-
-[
-"🔥 장작",
-"🌧️ 빗소리",
-"🌊 파도",
-"🌲 숲"
-]
-
-)
-
-audio={
-"🔥 장작":"sounds/fire.mp3",
-"🌧️ 빗소리":"sounds/rain.mp3",
-"🌊 파도":"sounds/ocean.mp3",
-"🌲 숲":"sounds/forest.mp3"
-}
-
-if Path(audio[sound]).exists():
-
-    st.audio(audio[sound])
-
-####################################
-# 명언
-####################################
-
-quotes=[
-
-"천천히 쉬어도 괜찮습니다.",
-
-"불꽃은 서두르지 않아도 계속 타오릅니다.",
-
-"오늘 하루도 충분히 잘했습니다.",
-
-"잠시 멍하니 있는 시간도 소중합니다.",
-
-"지금 이 순간을 즐겨보세요.",
-
-"모든 걱정은 잠시 내려두세요.",
-
-"행복은 이렇게 작은 쉼에서 시작됩니다."
-
-]
+st.write(themes[theme]["text"])
 
 st.markdown(
-f"<div class='quote'>{random.choice(quotes)}</div>",
+"<div class='star'>✨ ⭐ ✨ ⭐ ✨ ⭐ ✨ ⭐ ✨</div>",
 unsafe_allow_html=True
 )
 
-####################################
-# 힐링 타이머
-####################################
-
-minute=st.sidebar.selectbox(
-
-"힐링 시간",
-
-[
-5,
-10,
-30
-]
-
+st.markdown(
+"<div class='fire'>🔥</div>",
+unsafe_allow_html=True
 )
 
-if st.button("힐링 시작 🌙"):
+quotes = [
+"오늘도 정말 수고했어요.",
+"잠시 쉬어가도 괜찮습니다.",
+"불꽃처럼 천천히 마음을 녹여보세요.",
+"당신은 충분히 잘하고 있습니다.",
+"오늘 하루도 의미 있는 하루였습니다."
+]
 
-    progress=st.progress(0)
+st.subheader("💬 오늘의 위로")
 
-    seconds=minute*60
+st.success(random.choice(quotes))
 
-    for i in range(seconds):
+col1,col2,col3=st.columns(3)
 
-        progress.progress((i+1)/seconds)
+with col1:
+    if st.button("☕ 커피 한잔"):
+        st.info("따뜻한 커피 한잔이 마음을 편안하게 합니다.")
 
-        time.sleep(1)
+with col2:
+    if st.button("🌿 심호흡"):
+        st.success("천천히 숨을 들이마시고 내쉬어 보세요.")
 
-    st.success("편안한 시간이었습니다 😊")
-
-####################################
-# 별똥별
-####################################
-
-if random.randint(1,6)==1:
-
-    st.balloons()
-
-####################################
+with col3:
+    if st.button("❤️ 응원받기"):
+        st.balloons()
+        st.success("당신은 충분히 잘하고 있습니다!")
 
 st.markdown("---")
 
-st.markdown(
+st.subheader("🕒 현재 시간")
 
-"<div class='small'>🔥 Campfire Relax | 마음이 쉬어가는 공간</div>",
-
-unsafe_allow_html=True
+st.metric(
+"Now",
+datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 )
+
+st.markdown("---")
+
+st.caption("🔥 Made with Streamlit")
