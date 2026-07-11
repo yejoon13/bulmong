@@ -1,115 +1,209 @@
 import streamlit as st
+import random
 import time
+from pathlib import Path
 
 st.set_page_config(
     page_title="🔥 Campfire Relax",
-    page_icon="🔥",
-    layout="centered"
+    page_icon="🏕️",
+    layout="wide"
 )
 
-# CSS
+####################################
+# 배경 CSS
+####################################
+
 st.markdown("""
 <style>
+
 .stApp{
-    background: linear-gradient(180deg,#09111f,#111827,#1f2937,#000000);
-    color:white;
+background:linear-gradient(#06111f,#101820,#000000);
 }
 
-h1,h2,h3,p,div{
-    color:white;
-    text-align:center;
+.main-title{
+text-align:center;
+font-size:55px;
+color:#FFD369;
+}
+
+.sub{
+text-align:center;
+font-size:22px;
+color:white;
 }
 
 .fire{
-    font-size:130px;
-    animation:flicker 1s infinite alternate;
+font-size:150px;
+text-align:center;
+animation:flicker 1s infinite alternate;
 }
 
 @keyframes flicker{
-    0%{transform:scale(1);}
-    25%{transform:scale(1.03) rotate(-2deg);}
-    50%{transform:scale(0.98);}
-    75%{transform:scale(1.05) rotate(2deg);}
-    100%{transform:scale(1);}
-}
-
-.message{
-    font-size:24px;
-    padding:15px;
-    color:#FFD580;
+0%{transform:scale(1);}
+25%{transform:scale(1.03);}
+50%{transform:scale(.96);}
+75%{transform:scale(1.05);}
+100%{transform:scale(1);}
 }
 
 .quote{
-    font-size:20px;
-    color:#DDDDDD;
-    font-style:italic;
-    margin-top:20px;
+
+font-size:28px;
+text-align:center;
+color:white;
+padding:30px;
+
 }
 
-.footer{
-    color:gray;
-    text-align:center;
-    margin-top:40px;
+.small{
+
+text-align:center;
+color:gray;
+
 }
+
 </style>
-""", unsafe_allow_html=True)
 
+""",unsafe_allow_html=True)
+
+####################################
 # 제목
-st.markdown("<h1>🏕️ Campfire Relax</h1>", unsafe_allow_html=True)
-st.markdown("<p>잠시 쉬어가세요.</p>", unsafe_allow_html=True)
+####################################
 
-# 불
-st.markdown("<div class='fire'>🔥</div>", unsafe_allow_html=True)
+st.markdown("<div class='main-title'>🏕️ Campfire Relax</div>",unsafe_allow_html=True)
 
-# 타이핑 효과
-text = "오늘 하루도 정말 수고하셨습니다."
-placeholder = st.empty()
+st.markdown("<div class='sub'>오늘 하루도 정말 수고하셨습니다.</div>",unsafe_allow_html=True)
 
-current = ""
-for ch in text:
-    current += ch
-    placeholder.markdown(
-        f"<div class='message'>{current}</div>",
-        unsafe_allow_html=True
-    )
-    time.sleep(0.05)
+####################################
+# 테마 선택
+####################################
 
-st.markdown("---")
+theme=st.sidebar.selectbox(
+"캠핑 장소 선택",
 
-quotes = [
-    "불꽃은 조용히 타오르고 있습니다.",
-    "조급하지 않아도 괜찮습니다.",
-    "천천히 숨을 들이마시고 내쉬어 보세요.",
-    "지금 이 순간만큼은 아무 걱정도 내려놓으세요.",
-    "오늘의 피로는 이 불꽃과 함께 흘려보내세요.",
-    "당신은 충분히 잘하고 있습니다.",
-    "잠시 멍하니 바라보는 시간도 소중한 휴식입니다."
+[
+"🌲 숲속",
+"🏞️ 호숫가",
+"❄️ 겨울 캠핑"
 ]
 
-st.subheader("🌙 오늘의 한마디")
+)
 
-for q in quotes:
-    st.markdown(
-        f"<div class='quote'>{q}</div>",
-        unsafe_allow_html=True
-    )
-    time.sleep(0.3)
+image={
+"🌲 숲속":"images/forest.jpg",
+"🏞️ 호숫가":"images/lake.jpg",
+"❄️ 겨울 캠핑":"images/winter.jpg"
+}
+
+if Path(image[theme]).exists():
+    st.image(image[theme],use_container_width=True)
+
+####################################
+# 불멍
+####################################
+
+st.markdown("<div class='fire'>🔥</div>",unsafe_allow_html=True)
+
+####################################
+# 자연소리
+####################################
+
+sound=st.sidebar.selectbox(
+
+"자연 소리",
+
+[
+"🔥 장작",
+"🌧️ 빗소리",
+"🌊 파도",
+"🌲 숲"
+]
+
+)
+
+audio={
+"🔥 장작":"sounds/fire.mp3",
+"🌧️ 빗소리":"sounds/rain.mp3",
+"🌊 파도":"sounds/ocean.mp3",
+"🌲 숲":"sounds/forest.mp3"
+}
+
+if Path(audio[sound]).exists():
+
+    st.audio(audio[sound])
+
+####################################
+# 명언
+####################################
+
+quotes=[
+
+"천천히 쉬어도 괜찮습니다.",
+
+"불꽃은 서두르지 않아도 계속 타오릅니다.",
+
+"오늘 하루도 충분히 잘했습니다.",
+
+"잠시 멍하니 있는 시간도 소중합니다.",
+
+"지금 이 순간을 즐겨보세요.",
+
+"모든 걱정은 잠시 내려두세요.",
+
+"행복은 이렇게 작은 쉼에서 시작됩니다."
+
+]
+
+st.markdown(
+f"<div class='quote'>{random.choice(quotes)}</div>",
+unsafe_allow_html=True
+)
+
+####################################
+# 힐링 타이머
+####################################
+
+minute=st.sidebar.selectbox(
+
+"힐링 시간",
+
+[
+5,
+10,
+30
+]
+
+)
+
+if st.button("힐링 시작 🌙"):
+
+    progress=st.progress(0)
+
+    seconds=minute*60
+
+    for i in range(seconds):
+
+        progress.progress((i+1)/seconds)
+
+        time.sleep(1)
+
+    st.success("편안한 시간이었습니다 😊")
+
+####################################
+# 별똥별
+####################################
+
+if random.randint(1,6)==1:
+
+    st.balloons()
+
+####################################
 
 st.markdown("---")
 
-st.subheader("⏳ 아무것도 하지 않는 1분")
+st.markdown(
 
-progress = st.progress(0)
+"<div class='small'>🔥 Campfire Relax | 마음이 쉬어가는 공간</div>",
 
-for i in range(100):
-    progress.progress(i + 1)
-    time.sleep(0.6)
-
-st.success("1분 동안 충분히 쉬었습니다. 😊")
-
-st.markdown("""
-<div class='footer'>
-🔥 Campfire Relax<br>
-잠시 멈추는 시간도 삶의 일부입니다.
-</div>
-""", unsafe_allow_html=True)
+unsafe_allow_html=True
+)
